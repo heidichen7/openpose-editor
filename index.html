@@ -2,44 +2,79 @@
 
 <head>
 	<link rel="stylesheet" href="css/home.css">
+	<!-- <link href="star/index.css"> -->
 	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 
 <body>
 	<div class="main">
 		<!-- Two columns! -->
-		<div class="col">
+		<div class="row">
 			<object id="star-demo" type="image/svg+xml" data="/star/star.svg" alt="embedded svg">
 
-			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="star-demo" viewBox="0 0 400 400">
-
-			<defs>
-			    <circle id="point-handle" r="10" x="0" y="0" stroke-width="4" fill="#fff" fill-opacity="0.4" stroke="#fff"/>
-			</defs>
-			<polygon id="star" stroke="#29e" stroke-width="20" stroke-linejoin="round" fill="none" points="260.8676170428898331,219.7770876399966369 297.8074659814675442,334.6204278639912673 200.0000000000000000,264.0000000000000000 102.1925340185324700,334.6204278639912673 139.1323829571101669,219.7770876399966369 41.7441956884864567,148.5795721360087214 162.3817438532817334,148.2229123600033631 200.0000000000000284,33.5999999999999943 237.6182561467182950,148.2229123600033631 358.2558043115135433,148.5795721360087498"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="0" x="260.868" y="219.777"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="1" x="297.807" y="334.62"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="2" x="200" y="264"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="3" x="102.193" y="334.62"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="4" x="139.132" y="219.777"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="5" x="41.7442" y="148.58"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="6" x="162.382" y="148.223"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="7" x="200" y="33.6"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="8" x="237.618" y="148.223"/>
-			<use xlink:href="#point-handle" class="point-handle" data-index="9" x="358.256" y="148.58"/>
-			</svg>
+				<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+				<?xml-stylesheet href="index.css" type="text/css"?>
+				<svg id="svg-edit-demo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<script type="text/javascript" xlink:href="../../interactjs/dist/interact.js"/>
+				<script type="text/javascript" xlink:href="index.js"/>
+				<defs>
+				    <circle id="point-handle"
+				        r="10" x="0" y="0"
+				        stroke-width="4"
+				        fill="#fff"
+				        fill-opacity="0.4"
+				        stroke="#fff"/>
+				</defs>
+				<polygon id="edit-star"
+				    stroke="#29e"
+				    stroke-width="20"
+				    stroke-linejoin="round"
+				    fill="none"
+				    points="260.8676170428898331,219.7770876399966369 297.8074659814675442,334.6204278639912673 200.0000000000000000,264.0000000000000000 102.1925340185324700,334.6204278639912673 139.1323829571101669,219.7770876399966369 41.7441956884864567,148.5795721360087214 162.3817438532817334,148.2229123600033631 200.0000000000000284,33.5999999999999943 237.6182561467182950,148.2229123600033631 358.2558043115135433,148.5795721360087498"/>
+				</svg>
 			</object>
 
 		</div>
 
-		<div class="col">
-			<!-- I have no idea what this does but you probably need it. -->
-			<form action="/">
-				<input type="file" id="myFile" name="filename">
-				<input type="submit">
-			</form>
+
+		<div class="row">
+
+
+
+
+			<a href="" id="a">
+				<button onclick="download('pose.json', 'text/json')">Save file</button>
+			</a>
+
+
+			<script>
+			function download(name, type) {
+			// document.getElementById("output-filename").value = "We can do this."
+			const optext = getOpenPoseFormat();
+			var file = new Blob([optext], {type: type});
+			a.href = URL.createObjectURL(file);
+			a.download = name;
+			}
+
+			function getOpenPoseFormat() {
+				var a = document.getElementById("a");
+				var posetext = "";
+				var posepoints = document.getElementById("edit-star").points;
+				for (let i = 0; i < posepoints.numberOfItems; i++) {
+					point = posepoints.getItem(i)
+					posetext += (point.x) + ", " + (point.y) + ", 1.0 ";
+					if (i != posepoints.numberOfItems - 1) posetext += ", "
+		    }
+			 const optext = "{\"version\":1.3,\"people\":[{\"person_id\":[-1],\"pose_keypoints_2d\":[" + posetext + "],\"face_keypoints_2d\":[],\"hand_left_keypoints_2d\":[],\"hand_right_keypoints_2d\":[],\"pose_keypoints_3d\":[],\"face_keypoints_3d\":[],\"hand_left_keypoints_3d\":[],\"hand_right_keypoints_3d\":[]}]}"
+			 return optext;
+			}
+			</script>
+
+
+
 		</div>
 	</div>
+
 
 <script src='star/index.js'></script>
 </body>

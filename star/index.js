@@ -3,10 +3,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("boooooo");
+
   const sns = 'http://www.w3.org/2000/svg'
   const xns = 'http://www.w3.org/1999/xlink'
   const root = document.getElementById('svg-edit-demo')
   const star = document.getElementById('edit-star')
+  if (star==null) {
+    console.log(document)
+  }
   let rootMatrix
   const originalPoints = []
   let transformedPoints = []
@@ -42,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         range: 20 * Math.max(rootMatrix.a, rootMatrix.d),
       },
     })
+    console.log(star.points)
+
   }
 
   interact(root)

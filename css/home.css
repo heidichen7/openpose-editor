@@ -3,8 +3,24 @@ html, body {
     height: 100%;
 }
 
-.col {
-    display: inline-block;
-    width: 49%;
-    height: 100%;
+.row {
+    /* display: inline-block; */
+    width: 40%;
+    height: 40%;
+}
+
+.point-handle {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: -ms-grab;
+    cursor: grab;
+
+    touch-action: none;
+}
+
+.dragging, .dragging .point-handle {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: -ms-grabbing;
+    cursor: grabbing;
 }
