@@ -24,3 +24,12 @@ html, body {
     cursor: -ms-grabbing;
     cursor: grabbing;
 }
+
+#vis {
+    width: 100%;
+    height: 98%;
+}
+
+svg {
+    border: 1px solid #000;
+}
