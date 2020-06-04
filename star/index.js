@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // const lines = document.getElementById('edit-star')
   // console.log(lines1)
   const lines = document.querySelectorAll("[id^=edit-star]")
-  console.log(lines)
+  // console.log(lines)
   let rootMatrix
   const originalPoints = []
   let transformedPoints = []
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       onmove: function (event) {
         const i = event.target.getAttribute('data-index') | 0
-        console.log(i)
+        // console.log(i)
         var edgeIndex = Math.floor(i / 2)
         var indexInEdge = i % 2
         const point = lines[edgeIndex].points.getItem(indexInEdge)
