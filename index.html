@@ -3,33 +3,39 @@
 <head>
 	<h2>Welcome to my OpenPose Editor! </h2>
 	<link rel="stylesheet" href="css/home.css">
-	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 	<script src='https://d3js.org/d3.v5.min.js'></script>
+
 </head>
 
 <body>
 	<div class="main">
-
 		<a href="" id="a">
-			<button onclick="getCurrentState()">Save file</button>
-			<!-- <button onclick="download('pose.json')">Save file</button> -->
+			<button onclick="download()">Create file</button>
 		</a>
-
+		<!-- <button onclick = "lockLengths()"> Lock limb lengths </button> -->
 	</div>
-	<svg id='vis'></svg>
+	<svg id='vis'></svg> <!-- this is the main editor interactive svg! -->
 
-<script>
-	function download(name) {
-		// document.getElementById("output-filename").value = "We can do this."
-		const optext = "heyyy";//getOpenPoseFormat();
-		var file = new Blob([optext], {type: 'text/json'});
-		a.href = URL.createObjectURL(file);
-		a.download = name;
+	<script>
+	function download() {
+		let pointlist = []
+		for (let i = 0; i < pointData.length; i++) {
+			pointlist.push(pointData[i]['x'])
+			pointlist.push(pointData[i]['x'])
+			pointlist.push(1.0)
+		}
+    // let posetext = JSON.stringify(pointData);
+  	let optext = "{\"version\":1.3,\"people\":[{\"person_id\":[-1],\"pose_keypoints_2d\":[" + pointlist + "],\"face_keypoints_2d\":[],\"hand_left_keypoints_2d\":[],\"hand_right_keypoints_2d\":[],\"pose_keypoints_3d\":[],\"face_keypoints_3d\":[],\"hand_left_keypoints_3d\":[],\"hand_right_keypoints_3d\":[]}]}"
+		let file = new Blob([optext], {type: 'text/json'});
+	  a.href = URL.createObjectURL(file);
+	  a.download = 'pose.json';
 	}
+	</script>
 
-</script>
-<script src='js/viz.js'></script>
+	<script src='js/viz.js'></script>
 </body>
 
 </html>
