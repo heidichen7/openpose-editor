@@ -11,28 +11,22 @@
 <body>
 	<div class="main">
 
-
-
-
-
-
-
-	<a href="" id="a">
-		<button onclick="getCurrentState()">Save file</button>
-		<!-- <button onclick="download('pose.json')">Save file</button> -->
-	</a>
+		<a href="" id="a">
+			<button onclick="getCurrentState()">Save file</button>
+			<!-- <button onclick="download('pose.json')">Save file</button> -->
+		</a>
 
 	</div>
 	<svg id='vis'></svg>
 
 <script>
-		function download(name) {
-			// document.getElementById("output-filename").value = "We can do this."
-			const optext = "heyyy";//getOpenPoseFormat();
-			var file = new Blob([optext], {type: 'text/json'});
-			a.href = URL.createObjectURL(file);
-			a.download = name;
-		}
+	function download(name) {
+		// document.getElementById("output-filename").value = "We can do this."
+		const optext = "heyyy";//getOpenPoseFormat();
+		var file = new Blob([optext], {type: 'text/json'});
+		a.href = URL.createObjectURL(file);
+		a.download = name;
+	}
 
 </script>
 <script src='js/viz.js'></script>
