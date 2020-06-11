@@ -1,13 +1,18 @@
 html, body {
     width: 100%;
     height: 100%;
+    background-color: 'black'
 }
 
+head {background-color: 'black'}
+h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .row {
-    /* display: inline-block; */
+
     width: 100%;
     height: 100%;
 }
+
+
 
 .point-handle {
     cursor: -webkit-grab;

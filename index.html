@@ -3,28 +3,44 @@
 <head>
 	<h2>Welcome to my OpenPose Editor! </h2>
 	<link rel="stylesheet" href="css/home.css">
-<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
-	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
-	<script src='https://d3js.org/d3.v5.min.js'></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 
+	<script src='https://d3js.org/d3.v5.min.js'></script>
 </head>
 
 <body>
 	<div class="main">
-		<a href="" id="a">
-			<button onclick="download()">Create file</button>
-		</a>
-		<!-- <button onclick = "lockLengths()"> Lock limb lengths </button> -->
+
+		<div class="row">
+			<a href="" id="a">
+				<button onclick="download()">Save to OpenPose File</button>
+			</a>
+		<button id="upload">Start from previous File</button>  <!-- TODO -->
+		<input onclick="defaultGrouping()" type="button" value="Group default joints" id="defaultgroupbutton"></input>
+		<input onclick="customGrouping()" type="button" value="Add custom group" id="customgroupbutton"></input>
+		<input onclick="displayLabels()" type="button" value="Display joint labels" id="displaylabelbutton"></input>
+	  <input onclick="lockLimbLength()" type="button" value="Lock limb length" id="locklengthbutton"></input>
+	</div>
+
+	<div id="groupidtext">
+		<p> </p>
+	</div>
+	<!-- append child -->
+
 	</div>
 	<svg id='vis'></svg> <!-- this is the main editor interactive svg! -->
+
+
+
 
 	<script>
 	function download() {
 		let pointlist = []
+		console.log(pointData)
 		for (let i = 0; i < pointData.length; i++) {
 			pointlist.push(pointData[i]['x'])
-			pointlist.push(pointData[i]['x'])
+			pointlist.push(pointData[i]['y'])
 			pointlist.push(1.0)
 		}
     // let posetext = JSON.stringify(pointData);
@@ -33,9 +49,88 @@
 	  a.href = URL.createObjectURL(file);
 	  a.download = 'pose.json';
 	}
+
+	function customGrouping() {
+		let elem = document.getElementById("customgroupbutton");
+		if (elem.value=="Add custom group") {
+			unGroup();// remomve default grouping
+			elem.value = "Remove custom group";
+			isCustomGroup = true;
+			updateIDText(customGroup);
+		}	else {
+			elem.value = "Add custom group";
+			isCustomGroup = false;
+			customGroup = [];
+			svg.selectAll(".points").style("fill", "white"); //unmark all custom grouped points
+			resetIDText();
+		}
+	}
+	function defaultGrouping() {
+	    let elem = document.getElementById("defaultgroupbutton");
+	    if (elem.value=="Group default joints") {
+				unGroup(); // turn off custom grouping (joints can't be in multiple groups)
+				elem.value = "Ungroup default joints";
+				DEFAULTGROUPS = ALL_BODYPARTS;
+				updateIDText(DEFAULTGROUPTOID);
+			} else {
+				elem.value = "Group default joints";
+				DEFAULTGROUPS = {};
+				resetIDText();
+			}
+	}
+
+	function displayLabels() {
+		let elem = document.getElementById("displaylabelbutton");
+		if (elem.value=="Display joint labels") {
+			elem.value = "Hide joint labels";
+			svg.selectAll("text").style("opacity", "1");
+		}	else {
+			elem.value = "Display joint labels";
+			svg.selectAll("text").style("opacity", "0");
+		}
+	}
+	function updateIDText(ids) {
+		console.log("update?");
+		let elem = document.getElementById("groupidtext");
+		elem.style.visibility = 'visible';
+		elem.innerHTML = "Grouped Joint Ids:" + JSON.stringify(ids);
+	}
+
+	function resetIDText() {
+		console.log("reset?")
+		let elem = document.getElementById("groupidtext");
+		elem.style.visibility = 'hidden';
+	}
+	function unGroup() { // remove all grouping
+		// remove default grouping
+		let elem = document.getElementById("defaultgroupbutton");
+		elem.value = "Group default joints";
+		DEFAULTGROUPS = {};
+
+		// remove custom grouping
+		elem = document.getElementById("customgroupbutton");
+		elem.value = "Add custom group";
+		isCustomGroup = false;
+		customGroup = [];
+		svg.selectAll(".points").style("fill", "white");
+
+	}
+	function lockLimbLength() {
+		let elem = document.getElementById("locklengthbutton");
+		if (elem.value=="Lock limb length") {
+			// unGroup();
+			elem.value = "Unlock limb length";
+			lockEngaged = true;
+		}	else {
+			elem.value = "Lock limb length";
+			lockEngaged = false;
+			// svg.selectAll(".points").style("fill", "white");
+		}
+
+	}
 	</script>
 
-	<script src='js/viz.js'></script>
+  <script src='js/viz.js'></script>
 </body>
 
 </html>
